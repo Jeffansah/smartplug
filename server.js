@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.post("/api/receive-data", (req, res) => {
   const { voltage, current, temperature, humidity } = req.body;
 
-  // Push the data to Firebase
+  // Push the data to Firebase Database
   const db = admin.database();
   const readingsRef = db.ref("readings");
 
