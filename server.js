@@ -29,7 +29,7 @@ app.post("/api/receive-data", (req, res) => {
       current,
       temperature,
       humidity,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toLocaleString(),
     })
     .then(() => {
       console.log("Data successfully pushed to Firebase.");
