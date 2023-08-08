@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const admin = require("firebase-admin");
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Initialize Firebase Admin SDK
 const serviceAccount = require("./gsk-smartplug-firebase-adminsdk-96fyi-cd6ccffd66.json");
@@ -39,6 +39,24 @@ app.post("/api/receive-data", (req, res) => {
       console.error("Error pushing data to Firebase:", error);
       res.sendStatus(500);
     });
+});
+
+// Endpoint to retrieve data from Firebase
+app.get("/api/retrieve-data", (req, res) => {
+  const db = admin.database();
+  const readingsRef = db.ref("readings");
+
+  readingsRef.once(
+    "value",
+    (snapshot) => {
+      const data = snapshot.val();
+      res.status(200).send(data);
+    },
+    (error) => {
+      console.error("Error retrieving data from Firebase:", error);
+      res.sendStatus(500);
+    }
+  );
 });
 
 // Start the server
